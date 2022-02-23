@@ -1713,8 +1713,8 @@ const all_words = [
     "share",
     "shark",
     "sharp",
-    "shave"
-"shawl",
+    "shave",
+    "shawl",
     "shear",
     "sheen",
     "sheep",
