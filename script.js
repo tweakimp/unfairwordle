@@ -2468,6 +2468,10 @@ function find_words_under_state(guess, possible_words, state) {
                 } else if (word.includes(guess_character)) {
                     // guessed character is in the word but not at the right position
                     // thats what we wanted
+
+                    // TODO prevent "wrong_position" if guess character is correctly guessed
+                    // at all occuring positions already
+
                     continue
                 } else {
                     // guessed character is not in the word at at all
@@ -2507,6 +2511,11 @@ function calculate_best_state(guess) {
             best_states.push([state, words_under_state]);
             best_state_len_words = state_len_words;
         } else if (state_len_words == best_state_len_words) {
+            // dont add all correct state if we have other states with same number of 
+            // words
+            if (state.every(element => element == "correct")) {
+                continue
+            }
             // found equally good state, save it to randomly choose one at the end
             best_states.push([state, words_under_state]);
         }
@@ -2520,7 +2529,7 @@ function calculate_best_state(guess) {
 
 }
 
-function flip_tile(tile, index, array, state) {
+function flip_tile(tile, index, tiles, state) {
     const letter = tile.dataset.letter;
     const key = keyboard.querySelector(`[data-key="${letter}"i]`);
     setTimeout(() => {
@@ -2542,12 +2551,12 @@ function flip_tile(tile, index, array, state) {
                 key.classList.add("wrong");
             }
 
-            if (index === array.length - 1) {
+            if (index === tiles.length - 1) {
                 tile.addEventListener(
                     "transitionend",
                     () => {
                         start_interaction();
-                        check_win_lose(state, remaining_words);
+                        check_win_lose(state, tiles);
                     },
                     { once: true }
                 );
@@ -2589,7 +2598,7 @@ function shake_tiles(tiles) {
     });
 }
 
-function check_win_lose(state) {
+function check_win_lose(state, tiles) {
     // if all elements of state are correct
     if (state.every(element => element == "correct")) {
         show_alert("Well done!", 5000);
@@ -2622,7 +2631,3 @@ function dance_tiles(tiles) {
         }, (index * DANCE_ANIMATION_DURATION) / 5);
     });
 }
-
-
-
-
