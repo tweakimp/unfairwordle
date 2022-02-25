@@ -1,15 +1,15 @@
-// we import all_words from words.js
+// we import guess_words and target_words from words.js
 
 const WORD_LENGTH = 5;
-const FLIP_ANIMATION_DURATION = 500;
-const DANCE_ANIMATION_DURATION = 500;
+const FLIP_ANIMATION_DURATION = 200;
+const DANCE_ANIMATION_DURATION = 200;
 const keyboard = document.querySelector("[data-keyboard]");
 const alertContainer = document.querySelector("[data-alert-container]");
 const guessGrid = document.querySelector("[data-guess-grid]");
 
 
 start_interaction();
-let remaining_words = all_words.slice();
+let remaining_words = target_words.slice();
 const all_states = prepare_all_states();
 
 function start_interaction() {
@@ -95,7 +95,7 @@ function submit_guess() {
     }, "");
 
     // check if guess is in allowed word list
-    if (!all_words.includes(guess)) {
+    if (!guess_words.includes(guess)) {
         show_alert(`Not in word list`);
         // show_alert(`${guess.toUpperCase()} is not in the word list.`);
         shake_tiles(activeTiles);
