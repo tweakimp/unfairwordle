@@ -5,6 +5,8 @@ It is possible to win though :)
 
 ## How to play
 
+[Play it here](https://tweakimp.github.io/unfairwordle/)
+
 Try to guess an english five letter word with six tries.  
 You can only submit valid five letter words.
 
