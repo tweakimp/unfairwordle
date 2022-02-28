@@ -126,52 +126,83 @@ function prepare_all_states() {
     return states
 }
 
+function is_word_valid(guess, word, state) {
+    let how_often_wrong_position_left = {}
+
+    // correct pass
+    for (let index = 0; index < WORD_LENGTH; index++) {
+        let state_position = state[index]
+        let word_character = word[index]
+
+        if (word_character in how_often_wrong_position_left) {
+            how_often_wrong_position_left[word_character] += 1
+        } else {
+            how_often_wrong_position_left[word_character] = 1
+        }
+
+        if (state_position == "correct") {
+            let guess_character = guess[index]
+            if (guess_character == word_character) {
+                how_often_wrong_position_left[guess_character] -= 1
+                continue
+            } else {
+                return false
+            }
+        }
+    }
+
+    // wrong position pass
+    for (let index = 0; index < WORD_LENGTH; index++) {
+        let state_position = state[index]
+        if (state_position == "wrong_position") {
+            let guess_character = guess[index]
+            let word_character = word[index]
+            if (guess_character == word_character) {
+                // we have a correct guess, but we dont want one at this position
+                return false
+            } else if (!word.includes(guess_character)) {
+                // guessed character is not in the word at at all
+                return false
+            } else if (how_often_wrong_position_left[guess_character] > 0) {
+                // guessed character is in the word, but not at this postion
+                // thats what we want, but do we still have "wrong position"
+                // answers left for this character?
+                how_often_wrong_position_left[guess_character] -= 1
+                continue
+            } else {
+                // no "wrong position" answers left
+                return false
+            }
+
+        }
+    }
+
+    // false pass
+    for (let index = 0; index < WORD_LENGTH; index++) {
+        let state_position = state[index]
+        if (state_position == "false") {
+            let guess_character = guess[index]
+            let word_character = word[index]
+            if (guess_character == word_character) {
+                return false
+            }
+            else if (!word.includes(guess_character)) {
+                continue
+            } else if (how_often_wrong_position_left[guess_character] > 0) {
+                // we had "wrong positions" left, so false would not be ok
+                return false
+            } else {
+                continue
+            }
+        }
+
+    }
+    return true
+}
 function find_words_under_state(guess, possible_words, state) {
     let words = []
     for (let word of possible_words) {
-        let valid_word = true
-        for (let index = 0; index < WORD_LENGTH; index++) {
-            let guess_character = guess[index]
-            let word_character = word[index]
-            let state_position = state[index]
-
-            if (state_position == "false") {
-                if (word.includes(guess_character)) {
-                    // guessed character found in the word, but we wanted a false guess
-                    valid_word = false
-                    break
-                } else {
-                    continue
-                }
-
-            } else if (state_position == "wrong_position") {
-                if (guess_character == word_character) {
-                    // we have a correct guess, but we dont want one at this position
-                    valid_word = false
-                    break
-                } else if (word.includes(guess_character)) {
-                    // guessed character is in the word but not at the right position
-                    // thats what we wanted
-
-                    // TODO prevent "wrong_position" if guess character is correctly guessed
-                    // at all occuring positions already
-
-                    continue
-                } else {
-                    // guessed character is not in the word at at all
-                    valid_word = false
-                    break
-                }
-            } else if (state_position == "correct") {
-                if (guess_character == word_character) {
-                    continue
-                } else {
-                    valid_word = false
-                    break
-                }
-            }
-        }
-        if (valid_word == true) {
+        if (is_word_valid(guess, word, state)) {
             words.push(word)
         }
     }
@@ -285,7 +316,7 @@ function shake_tiles(tiles) {
 function check_win_lose(state, tiles) {
     // if all elements of state are correct
     if (state.every(element => element == "correct")) {
-        show_alert("Well done!", 5000);
+        show_alert("Well done!", null);
         dance_tiles(tiles);
         stop_interaction();
         return;

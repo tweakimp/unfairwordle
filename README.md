@@ -1,6 +1,6 @@
 # unfair wordle
 
-This wordle always replies with the least helpful answer.  
+This wordle always replies with the least helpful answer.
 It is possible to win though :)
 
 ## How to play
