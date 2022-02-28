@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    font-size: 1.5em;
+    font-size: clamp(2vh, 1.25vmin, 1.5em);
 }
 
 .title {
@@ -100,7 +100,7 @@ body {
 }
 
 .tile {
-    font-size: 2em;
+    font-size: 2.5em;
     color: white;
     border: 0.05em solid hsl(240, 2%, 23%);
     text-transform: uppercase;
@@ -203,6 +203,26 @@ body {
     font-weight: 600;
     height: clamp(9vh, 2.5vmin, 3em);
     padding: 0.25rem;
-    color: white;
     justify-content: center;
+    user-select: none;
+}
+
+.alert.hide {
+    opacity: 0;
+}
+
+.alert {
+    color: black;
+    pointer-events: none;
+    justify-content: center;
+    background-color: hsl(204, 7%, 85%);
+    padding: 0.75em;
+    border-radius: 0.25em;
+    opacity: 1;
+    transition: opacity 500ms ease-in-out;
+    margin-bottom: 0.5em;
+}
+
+.alert:last-child {
+    margin-bottom: 0;
 }

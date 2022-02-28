@@ -84,7 +84,7 @@ function submit_guess() {
 
     // check if guess has five letters
     if (activeTiles.length !== WORD_LENGTH) {
-        show_alert("Guess has to have five letters.");
+        show_alert("Guess has to have five letters");
         shake_tiles(activeTiles);
         return;
     }
@@ -97,7 +97,6 @@ function submit_guess() {
     // check if guess is in allowed word list
     if (!guess_words.includes(guess)) {
         show_alert(`Not in word list`);
-        // show_alert(`${guess.toUpperCase()} is not in the word list.`);
         shake_tiles(activeTiles);
         return;
     }
@@ -249,7 +248,7 @@ function flip_tile(tile, index, tiles, state) {
     const key = keyboard.querySelector(`[data-key="${letter}"i]`);
     setTimeout(() => {
         tile.classList.add("flip");
-    }, (index * FLIP_ANIMATION_DURATION) / 2);
+    }, (index * FLIP_ANIMATION_DURATION) / WORD_LENGTH);
 
     tile.addEventListener(
         "transitionend",
@@ -286,11 +285,18 @@ function get_active_tiles() {
 }
 
 function show_alert(message, duration = 1500) {
-    alertContainer.innerHTML = message;
+    const alert = document.createElement("div");
+    alertContainer.innerHTML = "";
+    alert.innerHTML = message;
+    alert.classList.add("alert");
+    alertContainer.prepend(alert);
     if (duration == null) return;
 
     setTimeout(() => {
-        alertContainer.innerHTML = "";
+        alert.classList.add("hide");
+        alert.addEventListener("transitionend", () => {
+            alert.remove();
+        });
     }, duration);
 }
 
@@ -337,6 +343,6 @@ function dance_tiles(tiles) {
                 },
                 { once: true }
             );
-        }, (index * DANCE_ANIMATION_DURATION) / 5);
+        }, (index * DANCE_ANIMATION_DURATION) / WORD_LENGTH);
     });
 }
