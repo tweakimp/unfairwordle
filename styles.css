@@ -15,7 +15,7 @@ body {
 }
 
 .title {
-    font-size: 2em;
+    font-size: 3em;
     font-weight: bolder;
     color: white;
     display: grid;
@@ -95,7 +95,7 @@ body {
     align-content: center;
     grid-template-columns: repeat(5, clamp(8vh, 2.5vmin, 3em));
     grid-template-rows: repeat(6, clamp(8vh, 2.5vmin, 3em));
-    row-gap: 0.5em;
+    row-gap: 0.25em;
     column-gap: 0.25em;
 }
 
