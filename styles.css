@@ -11,9 +11,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    padding-right: 0.1em;
-    padding-left: 0.1em;
-    font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
+    font-size: 1.5em;
 }
 
 .title {
@@ -23,7 +21,7 @@ body {
     display: grid;
     justify-content: center;
     align-content: center;
-    padding: 0.25em;
+    padding: 0.25rem;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
@@ -95,11 +93,10 @@ body {
     display: grid;
     justify-content: center;
     align-content: center;
-    grid-template-columns: repeat(5, 3em);
-    grid-template-rows: repeat(6, 3em);
+    grid-template-columns: repeat(5, clamp(8vh, 2.5vmin, 3em));
+    grid-template-rows: repeat(6, clamp(8vh, 2.5vmin, 3em));
     row-gap: 0.5em;
     column-gap: 0.25em;
-    margin-bottom: 1em;
 }
 
 .tile {
@@ -200,27 +197,12 @@ body {
 }
 
 .alert-container {
-    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-weight: 600;
-}
-
-.alert {
-    pointer-events: none;
-    background-color: hsl(204, 7%, 85%);
-    padding: 0.75em;
-    border-radius: 0.25em;
-    opacity: 1;
-    transition: opacity 500ms ease-in-out;
-    margin-bottom: 0.5em;
-}
-
-.alert:last-child {
-    margin-bottom: 0;
-}
-
-.alert.hide {
-    opacity: 0;
+    height: clamp(9vh, 2.5vmin, 3em);
+    padding: 0.25rem;
+    color: white;
+    justify-content: center;
 }

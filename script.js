@@ -285,18 +285,12 @@ function get_active_tiles() {
     return guessGrid.querySelectorAll('[data-state="active"]');
 }
 
-function show_alert(message, duration = 1000) {
-    const alert = document.createElement("div");
-    alert.innerHTML = message;
-    alert.classList.add("alert");
-    alertContainer.prepend(alert);
+function show_alert(message, duration = 1500) {
+    alertContainer.innerHTML = message;
     if (duration == null) return;
 
     setTimeout(() => {
-        alert.classList.add("hide");
-        alert.addEventListener("transitionend", () => {
-            alert.remove();
-        });
+        alertContainer.innerHTML = "";
     }, duration);
 }
 
